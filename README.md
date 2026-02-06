@@ -13,6 +13,7 @@ Install the dependencies (arch as an example)
 #### LaTeX
 
 You need XeTeX and BibTeX (and other stuff probably).
+
 ```zsh
 yay -Sy texlive
 ```
@@ -20,6 +21,7 @@ yay -Sy texlive
 #### Fonts
 
 You need the Calibri font.
+
 ```zsh
 yay -Sy ttf-ms-win11-auto
 ```
@@ -27,6 +29,7 @@ yay -Sy ttf-ms-win11-auto
 #### Make
 
 You need make. (it's usually installed by default)
+
 ```zsh
 yay -Sy make
 ```
@@ -34,6 +37,15 @@ yay -Sy make
 ### Compiling
 
 Run the command below to automatically generate the PDF.
+
 ```zsh
 make
+```
+
+## Running the code
+
+Preferably use
+
+```zsh
+
 ```
