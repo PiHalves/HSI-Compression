@@ -38,11 +38,11 @@ def reshape_for_model(images, model_name):
     if len(images.shape) == 5 and images.shape[-1] == 1:
         images = tf.squeeze(images, axis=-1)  # (B, 128, 128, 202)
 
-    if model_name in ['cae2D1D', 'RCGDNAE', 'LineRWKV']:
+    if model_name in ['rcae2D1D', 'RCGDNAE', 'LineRWKV']:
         # These models expect (B, H, W, C) -> data_mode=2 format
         return images  # Already (B, 128, 128, 202)
-    elif model_name == 'case3d':
-        # case3d expects (B, H, W, 1, C) -> data_mode=1 format
+    elif model_name == 'rcae2D':
+        # rcae2D expects (B, H, W, 1, C) -> data_mode=1 format
         return tf.expand_dims(images, axis=3)  # (B, 128, 128, 1, 202)
     else:
         return images
@@ -63,7 +63,7 @@ def reshape_to_segmentation_format(images):
         # (B, H, W, C) -> add channel dim -> (B, H, W, C, 1)
         return np.expand_dims(images, axis=-1)
     elif len(images.shape) == 5 and images.shape[3] == 1:
-        # (B, H, W, 1, C) case3d format -> (B, H, W, C, 1)
+        # (B, H, W, 1, C) rcae2D format -> (B, H, W, C, 1)
         images = np.squeeze(images, axis=3)  # (B, H, W, C)
         return np.expand_dims(images, axis=-1)  # (B, H, W, C, 1)
     elif len(images.shape) == 5 and images.shape[-1] == 1:
@@ -1333,9 +1333,9 @@ def main(args):
     if args.mode not in ['train', 'validate', 'test']:
         raise ValueError(
             "Invalid mode. Choose from 'train', 'validate', or 'test'.")
-    if args.model not in ['cae2D1D', 'case3d', 'RCGDNAE', 'LineRWKV', 'UNET', 'small_seg']:
+    if args.model not in ['rcae2D1D', 'rcae2D', 'RCGDNAE', 'LineRWKV', 'UNET', 'small_seg']:
         raise ValueError(
-            "Invalid model. Choose from 'cae2D1D', 'case3d', 'RCGDNAE', 'LineRWKV', 'UNET', or 'small_seg'.")
+            "Invalid model. Choose from 'rcae2D1D', 'rcae2D', 'RCGDNAE', 'LineRWKV', 'UNET', or 'small_seg'.")
     if args.split not in ['easy', 'hard']:
         raise ValueError("Invalid split. Choose from 'easy' or 'hard'.")
 
@@ -1464,9 +1464,9 @@ def main(args):
         print(f"PSNR: {psnr_m.result().numpy():.2f} dB")
         print(f"SSIM: {ssim_m.result().numpy():.4f}")
 
-    if args.model == 'cae2D1D':
-        from lossy.cae2D1D import cae2D1D
-        model = cae2D1D(src_channels=202, latent_channels=128)
+    if args.model == 'rcae2D1D':
+        from Code.lossy.rcae2D1D import rcae2D1D
+        model = rcae2D1D(src_channels=202, latent_channels=128)
         # Dataloaders: 2D1D expects [h,w,c] -> data_mode=2
 
         if args.mode == 'train':
@@ -1487,7 +1487,7 @@ def main(args):
 
             save_dir = os.path.join(args.output_dir, 'models')
             train_autoencoder(model, train_loader.dataset,
-                              val_loader.dataset, args.epochs, save_dir, 'cae2D1D')
+                              val_loader.dataset, args.epochs, save_dir, 'rcae2D1D')
 
         elif args.mode in ['validate', 'test']:
             val_loader = TFHySpecNetLoader(
@@ -1511,14 +1511,14 @@ def main(args):
                         split=args.split,
                         batch_size=args.batch_size,
                         save_path=args.save_arrays_path,
-                        model_name='cae2D1D'
+                        model_name='rcae2D1D'
                     )
                 else:
                     save_reconstruction_arrays(
                         model=model,
                         dataset=val_loader.dataset,
                         save_path=args.save_arrays_path,
-                        model_name='cae2D1D',
+                        model_name='rcae2D1D',
                         has_masks=False
                     )
             elif args.mode == 'test' and args.histogram:
@@ -1529,18 +1529,18 @@ def main(args):
                     dataset=val_loader.dataset,
                     bins=args.histogram_bins,
                     error_type=args.histogram_error_type,
-                    title="CAE2D1D Reconstruction Error Histogram",
+                    title="rcae2D1D Reconstruction Error Histogram",
                     show=True,
                     save_path=args.histogram_save_path
                 )
             else:
                 eval_autoencoder(model, val_loader.dataset)
-    elif args.model == 'case3d':
-        from lossy.case3d import ResidualConv3DAutoencoder
+    elif args.model == 'rcae2D':
+        from Code.lossy.rcae3D import ResidualConv3DAutoencoder
         model = ResidualConv3DAutoencoder(
             src_channels=202, latent_channels=128)
         print(args.histogram_save_path)
-        # case3d expects [h,w,1,c] -> data_mode=1
+        # rcae2D expects [h,w,1,c] -> data_mode=1
 
         if args.mode == 'train':
             train_loader = TFHySpecNetLoader(
@@ -1559,7 +1559,7 @@ def main(args):
                     print("Warning: failed to load checkpoint; starting fresh")
             save_dir = os.path.join(args.output_dir, 'models')
             train_autoencoder(model, train_loader.dataset,
-                              val_loader.dataset, args.epochs, save_dir, 'case3d')
+                              val_loader.dataset, args.epochs, save_dir, 'rcae2D')
 
         elif args.mode in ['validate', 'test']:
             val_loader = TFHySpecNetLoader(
@@ -1583,14 +1583,14 @@ def main(args):
                         split=args.split,
                         batch_size=args.batch_size,
                         save_path=args.save_arrays_path,
-                        model_name='case3d'
+                        model_name='rcae2D'
                     )
                 else:
                     save_reconstruction_arrays(
                         model=model,
                         dataset=val_loader.dataset,
                         save_path=args.save_arrays_path,
-                        model_name='case3d',
+                        model_name='rcae2D',
                         has_masks=False
                     )
             elif args.mode == 'test' and args.histogram:
@@ -1601,7 +1601,7 @@ def main(args):
                     dataset=val_loader.dataset,
                     bins=args.histogram_bins,
                     error_type=args.histogram_error_type,
-                    title="case3d Reconstruction Error Histogram",
+                    title="rcae2D Reconstruction Error Histogram",
                     show=True,
                     save_path=args.histogram_save_path
                 )
@@ -2332,7 +2332,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description='Train, validate, or test compression/segmentation models. Available models: cae2D1D, case3d, RCGDNAE, LineRWKV, UNET.')
+        description='Train, validate, or test compression/segmentation models. Available models: rcae2D1D, rcae2D, RCGDNAE, LineRWKV, UNET.')
     parser.add_argument('--mode', type=str,
                         choices=['train', 'validate', 'test'],
                         help='Mode of operation: train, validate, or test.')
@@ -2340,9 +2340,9 @@ if __name__ == "__main__":
                         choices=['easy', 'hard'],
                         help='Dataset split to use: easy or hard.')
     parser.add_argument('--model', type=str,
-                        choices=['cae2D1D', 'case3d',
+                        choices=['rcae2D1D', 'rcae2D',
                                  'RCGDNAE', 'LineRWKV', 'UNET', 'small_seg'],
-                        help='Model to use: cae2D1D, case3d, RCGDNAE, LineRWKV, UNET, or small_seg.')
+                        help='Model to use: rcae2D1D, rcae2D, RCGDNAE, LineRWKV, UNET, or small_seg.')
     parser.add_argument('--config', type=str,
                         help='Path to the configuration file.')
     parser.add_argument('--data_dir', type=str, default=None,
