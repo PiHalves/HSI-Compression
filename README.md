@@ -1,12 +1,12 @@
 # HSI-Compression: Deep Learning for Hyperspectral Image Compression
 
-**Where deep learning meets Earth observation satellites: Compression and analysis of hyperspectral images**
+## Where deep learning meets Earth observation satellites: Compression and analysis of hyperspectral images
 
 By Michał Rajzer and Jakub Sanecki
 
 ## Abstract
 
-Hyperspectral images (HSIs) provide detailed spectral information across hundreds of bands but generate significantly larger data volumes than traditional RGB images, creating challenges for storage and transmission in resource-constrained environments such as satellites. 
+Hyperspectral images (HSIs) provide detailed spectral information across hundreds of bands but generate significantly larger data volumes than traditional RGB images, creating challenges for storage and transmission in resource-constrained environments such as satellites.
 
 This thesis explores deep learning-based compression methods for HSIs, implementing and evaluating four models: LineRWKV for lossless compression, and RCAE2D1D, RCAE3D, and RCGDNAE for lossy compression.
 The models were trained and tested on the HySpecNet11k dataset, with performance assessed using metrics such as Bits Per Pixel Per Band (BPPPB), Peak Signal-to-Noise Ratio (PSNR), and Structural Similarity Index Measure (SSIM).
@@ -44,17 +44,19 @@ The results indicate that deep learning-based compression techniques can effecti
 ### Setup
 
 1. Clone the repository:
+
 ```bash
 git clone https://github.com/yourusername/HSI-Compression.git
 cd HSI-Compression
 ```
 
-2. Install dependencies:
+1. Install dependencies:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Download the HySpecNet11k dataset and place it in your data directory.
+1. Download the HySpecNet11k dataset and place it in your data directory.
 
 ---
 
@@ -118,11 +120,11 @@ HSI-Compression/
 
 ### Segmentation Models
 
-5. **UNET** - U-Net for Semantic Segmentation
+1. **UNET** - U-Net for Semantic Segmentation
    - 4-class segmentation
    - Input shape: `(128, 128, 202, 1)`
 
-6. **small_seg** - Lightweight Segmentation Model
+2. **small_seg** - Lightweight Segmentation Model
    - Memory-efficient alternative to U-Net
    - 8 base filters, depth=3
    - Ideal for 12GB GPU memory
@@ -209,6 +211,7 @@ python Code/main.py \
 ```
 
 This computes:
+
 - Confusion matrix
 - Accuracy, Precision, Recall, F1-score
 - IoU (Intersection over Union)
@@ -231,6 +234,7 @@ python Code/main.py \
 ```
 
 This compares:
+
 - Original images segmentation vs ground truth
 - Reconstructed images segmentation vs ground truth  
 - Degradation metrics (accuracy, F1, IoU, Dice)
@@ -279,6 +283,7 @@ Model-specific parameters can be adjusted in the respective config files or via 
 ### Reconstruction Arrays
 
 When using `--save_arrays`:
+
 - `{model_name}_batch_{i}_originals.npy` - Original images
 - `{model_name}_batch_{i}_reconstructed.npy` - Reconstructed images
 - `{model_name}_batch_{i}_masks.npy` - Ground truth masks (if `--save_masks`)
