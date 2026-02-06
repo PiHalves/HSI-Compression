@@ -1465,8 +1465,8 @@ def main(args):
         print(f"SSIM: {ssim_m.result().numpy():.4f}")
 
     if args.model == 'rcae2D1D':
-        from Code.lossy.rcae2D1D import rcae2D1D
-        model = rcae2D1D(src_channels=202, latent_channels=128)
+        from Code.lossy.rcae2D1D import cae2D1D
+        model = cae2D1D(src_channels=202, latent_channels=128)
         # Dataloaders: 2D1D expects [h,w,c] -> data_mode=2
 
         if args.mode == 'train':

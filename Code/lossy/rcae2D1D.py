@@ -17,7 +17,7 @@ class SpatialReshape(layers.Layer):
         return config
 
 @keras.utils.register_keras_serializable()
-class rcae2D1D(Model):
+class cae2D1D(Model):
     def __init__(
         self, 
         src_channels: int = 202, 
