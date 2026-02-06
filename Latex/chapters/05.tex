@@ -1,0 +1,53 @@
+\chapter{Machine learning model implementation}
+
+\section{Machine learning basics}
+
+\subsection{Neural networks}
+Artificial neural networks (ANNs) are function approximators inspired by how people believed the human brain works.
+They consist of layers of neurons that are interconnected via weighted connections.
+Each neuron receives multiple inputs, applies a bias term and an activation function, which produces an output.
+The simplified mathematical representation of a single neuron is given by equation \ref{fig:neuron_equation} :
+\begin{align}
+    y = \phi \left( \sum_{i=1}^{n} w_i x_i + b \right),
+    \label{fig:neuron_equation}
+\end{align}
+where $y$ is the output of the neuron, $x_i$ are the inputs, $w_i$ are the weights associated with each input, $b$ is the bias term and $\phi$ is the activation function.
+$\phi$ can be any non-linear differentiable function, as linear functions would simplify the model to only having one layer, while it needs to be differentiable due to the use of gradient-based optimization methods discussed in Section \ref{sec:training_nn}. \par
+Typical activation functions include Rectified Linear Unit (ReLU), Sigmoid or Tanh.
+In these, the models mostly used ReLU, Gaussian Error Linear Unit (GeLU), Leaky ReLU, and Sigmoid.
+The ReLU, GeLU, and Leaky ReLU are similar functions that simply introduce non-linearity.
+The most basic of these is the ReLU, which outputs zero for any negative input and the input itself for any positive input.
+Leaky ReLU introduces a small slope for negative inputs instead of outputting zero.
+GeLU is a smoother version of ReLU that approximates the output using the Gaussian error function, as shown in equation \ref{fig:gelu_equation}:
+\begin{align}
+    \text{GeLU}(x) = \frac{1}{2} x \left( 1 + \text{erf} \left( \frac{x}{\sqrt{2}} \right) \right),
+    \label{fig:gelu_equation}
+\end{align}
+where $\text{erf}$ is the error function shown in equation \ref{fig:error_function_equation},
+\begin{align}
+    \text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_{0}^{x} e^{-t^2} dt.
+    \label{fig:error_function_equation}
+\end{align}
+
+The Sigmoid function, on the other hand, maps input values to a range between 0 and 1 which is useful for probabilistic outputs or other problems where a certain range of outputs is appropriate.
+The Sigmoid function is given by the formula in equation \ref{fig:sigmoid_equation}:
+\begin{align}
+    \text{Sigmoid}(x) = \frac{1}{1 + e^{-x}}.
+    \label{fig:sigmoid_equation}
+\end{align}
+
+\subsection{Training neural networks} \label{sec:training_nn}
+Neural networks are typically trained using a process called backpropagation.
+This involves calculating the gradient of a loss function with respect to the network's weights and biases using the chain rule of calculus.
+These gradients can then be used to update the weights and biases of the neurons using optimization algorithms.
+One of the most commonly used optimization algorithms is stochastic gradient descent (SGD), especially in the form of the Adam optimizer~\cite{Adam2014}, which was used in this thesis.
+Adam combines the advantages of two other extensions of SGD: Adaptive Gradient Algorithm (AdaGrad) and Root Mean Square Propagation (RMSProp).
+It computes adaptive learning rates for each parameter based on estimates of the first and second moments of the gradients.
+However, to use Adam or any other gradient-based optimization method a suitable loss function must be used to quantify the difference between the predicted outputs of the network and the true target values.
+Common loss functions for regression problems include Mean Squared Error (MSE) and Mean Absolute Error (MAE)~\cite{lossMetrics}.
+In image compression tasks, MSE is often used as it directly measures the pixel-wise differences between the original and reconstructed images.
+This doesn't always correlate well with human perception of image quality, so other metrics like those discussed in Section \ref{sec:eval_metrics} may also be considered during model evaluation.
+
+
+
+

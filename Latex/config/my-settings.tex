@@ -1,0 +1,105 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                             %
+% MY PACKAGES, SETTINGS ETC.                  %
+%                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Put your packages, macros, setting here.
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% listings
+% packages: listings or minted
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+
+\setcounter{biburllcpenalty}{7000}  % Allow URL breaks at lowercase letters
+\setcounter{biburlucpenalty}{8000}  % Allow URL breaks at uppercase letters
+
+% package listings
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\pgfplotsset{
+    colormap={blueblackred}{
+        rgb255(0cm)=(0,0,255);     % blue
+        rgb255(1cm)=(0,0,0);       % black
+        rgb255(2cm)=(255,0,0);     % red
+    }
+}
+
+\usepackage{graphicx}
+\usepackage{listings}
+\lstset{%
+    morekeywords={string,exception,std,vector},% add the keyword you need
+    language=C++,% C, Matlab, Python, SQL, TeX, XML, bash, ... – vide https://www.ctan.org/pkg/listings
+    commentstyle=\textit,%
+    identifierstyle=\textsf,%
+    keywordstyle=\sffamily\bfseries, %\texttt, %
+    %captionpos=b,%
+    tabsize=3,%
+    frame=lines,%
+    numbers=left,%
+    numberstyle=\tiny,%
+    numbersep=5pt,%
+    breaklines=true,%
+    escapeinside={@*}{*@},%
+}
+\usepackage{caption}
+
+\usepackage{tikz}
+\usepackage[edges]{forest}
+\usepackage{enumitem}
+\newlist{speclist}{itemize}{1}
+\setlist[speclist]{
+    label=\textbullet,
+    leftmargin=2em,
+    itemsep=1pt,
+    parsep=0pt,
+    topsep=2pt,
+    partopsep=0pt
+}
+\usepackage{array}
+\usepackage{multirow}  % for \multirow command in tables
+\usepackage{threeparttable}  % for tablenotes environment
+% % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % % 
+% package minted
+\usepackage{minted}
+
+% This package requires a special command line option in compilation
+% pdflatex -shell-escape main.tex
+% xelatex  -shell-escape main.tex
+
+% \usepackage[chapter]{minted} % [section]
+\usemintedstyle{bw}   % black and white codes
+
+\setminted % https://ctan.org/pkg/minted
+{
+    %fontsize=\normalsize,%\footnotesize,
+    %captionpos=b,%
+    tabsize=3,%
+    frame=lines,%
+    framesep=2mm,
+    numbers=left,%
+    numbersep=5pt,%
+    breaklines=true,%
+    escapeinside=@@,%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                             %
+% END OF MY PACKAGES, SETTINGS ETC.           %
+%                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

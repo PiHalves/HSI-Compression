@@ -1,0 +1,128 @@
+\chapter{Introduction}
+
+% \begin{itemize}
+%     \item introduction into the problem domain
+%     \item settling of the problem in the domain
+%     \item objective of the thesis
+%     \item scope of the thesis
+%     \item short description of chapters
+%     \item clear description of contribution of the thesis's author – in case of more authors table with enumeration of contribution of authors
+% \end{itemize}
+\section{Introduction, thesis goal}
+Earth observation began as an exclusively scientific endeavor and has developed into an essential service aimed at the observation, interpretation, and management of the various Earth systems.
+The widespread use of satellites and other remote earth observation platforms results in the generation of a massive amount of data daily.
+This data is the backbone of various applications including agriculture~~\cite{chemometrics_environmental_monitoring2020}, forestry~~\cite{remote_sensing_uav_hyperspectral2017}, surveillance~~\cite{HSI_security_surveillance2010}, geology~~\cite{geology2012} and environmental monitoring~~\cite{environmental_monitoring_hyperspectral2009}.\par
+%
+Traditionally, a vast majority of the optical data has been acquired by panchromatic or multispectral cameras.
+Of these, the most common type of camera is the RGB (Red, Green, Blue), which mimic human eye by capturing data in three primary color channels: red (635 nm--700 nm), green (490 nm--560 nm), and blue (450 nm--490 nm) ~\cite{ColorWavelengths2014}.
+Although RGB images provide enough information for visual analysis and simple categorizations, they lack the depth of information required for more advanced applications.\par
+%
+This limitation has driven the development and deployment of hyperspectral imaging sensors (HSIS).
+Unlike their traditional counterparts, HSIS behave like an optical spectrometer on a per-pixel basis.
+HSIs go beyond three bands by providing data across dozens or even hundreds of very narrow spectral bands, which may include wavelengths outside the visible spectrum — from the ultraviolet (UV) and visible to the near-infrared (NIR) and short-wave infrared (SWIR) regions, typically ranging from 400 nm to 2.5 $\mu$m, with each band only a few nanometers wide ~\cite{lossless_comprehensive_review2025}.
+The resulting dataset is a three-dimensional data cube that contains two dimensions of spatial information (x, y) and one dimension of spectral information ($\lambda$),
+which contains a distinct spectral signature or ``fingerprint'' for each imaged material.
+These signatures enable the differentiation of materials and objects that cannot be distinguished from each other in conventional images ~\cite{geology2012}.\par
+%
+The use that can be made with this level of spectral detail is unparalleled.
+In agriculture applications, the use of HSIs helps to monitor nutrient deficiencies and diseases before they become visible to the naked eye~\cite{chemometrics_environmental_monitoring2020}.
+In the management of forest resources, HSIs help to assess species distribution, weight, and pest infestations ~\cite{remote_sensing_uav_hyperspectral2017}.
+Geology applications include mineral mapping and soil composition analysis ~\cite{geology2012}.
+Additionally, HSIs play critical roles in surveillance and environmental applications by enabling the detection of camouflaged objects and monitoring of pollution levels ~\cite{HSI_security_surveillance2010, environmental_monitoring_hyperspectral2009}.
+Most uses directly involve the analysis of the spectral signatures present in the data, allowing for more accurate and detailed assessments than traditional imaging methods.
+A common technique used in HSI analysis is semantic segmentation, where each pixel in the image is classified into different categories based on its spectral signature ~\cite{magic}.\par
+%
+However, the informational density of HSIs comes at a cost.
+A single HSI pixel no longer contains three values, but a vector of hundreds ~\cite{remote_sensing_uav_hyperspectral2017}.
+This results in significantly larger data sizes compared to traditional images, posing challenges for storage, transmission, and processing, especially in resource-constrained environments like satellites.
+To mitigate these challenges, effective compression techniques are essential.
+Over the years, a variety of compression methods have been proposed, ranging from adaptations of traditional compression algorithms to deep learning-based approaches specifically designed for HSI ~\cite{lossless_comprehensive_review2025}.\par
+%
+In this thesis, the focus is placed on the exploration and evaluation of selected HSI compression methods based on deep learning, which already exist in the literature.
+The goal is to compare these methods in terms of Compression Ratio (CR), reconstruction quality, and computational requirements for both lossy and lossless compression.
+Another goal is to check the feasibility of these methods by including a simple semantic segmentation model in the evaluation pipeline to assess the impact of compression on downstream tasks.
+To achieve this, a custom data pipeline was developed to facilitate the training and evaluation of the selected methods on a standard dataset ~\cite{HySpecNet11k}.
+We divided the work so that one author focused on two lossy compression methods while the other focused on one lossless and one lossy compression method, and both authors collaborated on the data pipeline and the semantic segmentation model.
+
+% Earth observation is becoming a vital tool in monitoring and understanding our planet.
+% Satellites and aerial vehicles gather vast amounts of data, which can be used for various applications.
+% Traditional imaging sensors capture data in three primary color channels: red (635nm-700nm), green (490nm-560nm), and blue (450nm-490nm)~\cite{ColorWavelengths2014}.
+% Although, the need for more detailed and information-dense data has pushed past such simple systems towards hyperspectral imaging sensors (HSIS). HSIS go beyond three channels by capturing data across dozens or even hundreds of narrow spectral bands.\\
+
+% These bands can range far beyond the range of typical RGB image sensors, from far infrared to deep UV or from 2.5$\mu$m to 400nm with each band being as narrow as several nm~\cite{lossless_comprehensive_review2025}.
+% Such small bands allow for the detection of subtle differences in material properties that are not discernible with traditional imaging as well as they allow for the identification of materials based on their spectral signatures~\cite{}.
+% This, in turn, makes these useful for many applications including agriculture~\cite{chemometrics_environmental_monitoring2020}, forestry~\cite{remote_sensing_uav_hyperspectral2017}, surveilance~\cite{HSI_security_surveillance2010}, geology~\cite{geology2012} and environmental monitoring~\cite{environmental_monitoring_hyperspectral2009}.\\
+
+% However, the high spectral resolution of hyperspectral images (HSIs) comes at the cost of significantly higher sizes of the images.
+% Each pixel in a HSI contains a full spectrum of data across many bands rather than just three color values.
+% This in turn creates a problem for applications where HSIS are most in demand such as satellites which operate under strict constraints on onboard storage, memory, power consumption and communications bandwidth~\cite{}.
+% Furtheremore, the downlink bandwidth from satellites to ground stations might not be available at all times which makes it necessary to store large amounts of data onboard for extended periods of time~\cite{}.
+% To address these challenges, many different solutions were proposed over the years including traditional compression algorithms adapted for HSIs as well as novel methods based on deep learning~\cite{lossless_comprehensive_review2025}.\\
+% In this thesis, the focus is placed on the exploration and evaluation of selected HSI compression methods based on deep learning which already exist in literature.
+% The goal is to compare these methods in terms of compression ratio, reconstruction quality and computational requirements for both lossy and lossless compression.
+% To achieve this, a custom data pipeline was developed to facilitate the training and evaluation of the selected methods on a standard dataset~\cite{HySpecNet11k}.
+% We divided the work so that one author focuses on lossy compression methods while the other focuses on lossless compression methods.
+% The contributions of the authors are summarized in Table \ref{tab:contribution}.
+\section{Chapter overview}
+The thesis is structured into several chapters. This section provides the structure of the thesis and a brief description of each chapter.
+\begin{enumerate}
+    \item {\bf Introduction} Introduces the topic of hyperspectral image compression, outlines the goals of the thesis, and summarizes the contributions of the authors.
+    \item {\bf Literature} This chapter reviews existing literature on HSI compression, covering lossy and lossless methods, traditional and deep learning-based approaches, and relevant metrics for evaluating compression performance.
+    \item {\bf Dataset} Description of the dataset used for training and testing the models, and a custom visualization tool developed to better understand the dataset.
+    \item {\bf External specifications} Description of the tools and libraries used in the implementation of the models. Details instalation process and system requirements.
+    \item {\bf Internal specifications} Description of the custom data pipeline developed for training and evaluation of the models. Details the architecture and functionality of the pipeline as well as its components and data structure.
+    \item {\bf Machine learning model implementation} This chapter introduces the fundamental concepts of machine learning. It is focused on structures and the mathematics behind neural networks. It details activation functions and explains the use of optimizers.
+    \item {\bf Lossless compression model: LineRWKV} In this chapter, the LineRWKV model for lossless compression is introduced. It details the model's structure, its implementation, and training process.
+    \item {\bf Lossy compression model: Residual Convolutional Autoencoders} This chapter focuses on residual convolutional autoencoders for lossy compression. It presents the implementation and training results for two variants, a 3D RCAE and a hybrid 2D-1D RCAE.
+    \item {\bf Lossy compression model: Reduced Complexity General Divisive Normalisation Autoencoder} This chapter presents the RCGDNAE, a lossy compression model for HSI, that enhances a standard autoencoder with fixed KLT preprocessing and GDN activation layers.
+    \item {\bf Verification and validation} This chapter is focused on describing the methods and procedures used for verification and validation of the implemented models. It details the evaluation metrics used to assess the performance of the models.
+    \item {\bf Conclusion} Chapter that summarizes the results of the presented compression models while acknowledging limitations and proposing future improvement.
+\end{enumerate}
+
+\section{Contribution of the authors}
+Table \ref{tab:contribution} summarizes the contributions of each author to different parts of the thesis. It highlights the division of work between the authors in terms of chapters and specific topics covered.
+\begin{table}[h!]
+    \centering
+    \caption{Summary of the contribution of the authors.}
+    \label{tab:contribution}
+    \begin{tabular}{m{20em}| m{10em}}
+        \toprule
+        Part of the thesis                                                                                & Author \\
+        \midrule
+        Chapter 1. Introduction                                                                           & MR, JS \\
+        \hline
+        Chapter 2. Literature                                                                             & MR, JS \\
+        \hline
+        Chapter 3. Dataset                                                                                & MR, JS \\
+        \hline
+        Chapter 4. External specifications                                                                & MR, JS \\
+        \hline
+        Chapter 5. Internal specifications                                                                & MR, JS \\
+        \hline
+        Chapter 6. Machine learning model implementation                                                  & MR, JS \\
+        \hline
+        Chapter 7. Lossless compression model: LineRWKV                                                   & MR     \\
+        \hline
+        Chapter 8. Lossy compression model: Residual Convolutional Autoencoders                           & JS     \\
+        \hline
+        Chapter 9. Lossy compression model: Reduced Complexity General Divisive Normalisation Autoencoder & MR     \\
+        \hline
+        Chapter 10. Verification and validation                                                           & MR, JS \\
+        \hline
+        Chapter 11. Comparison                                                                            & MR, JS \\
+        \hline
+        Chapter 12. Conclusion                                                                            & MR, JS \\
+        \hline
+        LineRWKV implementation                                                                           & MR     \\
+        \hline
+        Residual Convolutional Autoencoders implementation                                                & JS     \\
+        \hline
+        RCGDNAE implementation                                                                            & MR     \\
+        \hline
+        Data pipeline implementation                                                                      & MR, JS \\
+        \hline
+        SmallSeg implementation                                                                           & MR, JS \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+

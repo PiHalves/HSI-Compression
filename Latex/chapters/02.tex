@@ -1,0 +1,76 @@
+\chapter{Related literature}
+% \begin{itemize}
+%     \item  problem analysis
+%     \item state of the art, problem statement
+%     \item  literature research (all sources in the thesis have to be referenced)
+%     \item description of existing solutions (also scientific ones, if the problem is scientifically researched), algorithms,  location of the thesis in the scientific domain
+% \end{itemize}
+The purpose of this thesis is to create and validate an integrated deep learning pipeline for compression of HSIs, with particular focus on Earth observation satellites.
+Therefore, before developing the models, it is crucial to understand what are the particularities of working with HSIs, the challenges they present, and the existing methods for their compression.
+The literature review provides an overview of metrics used in image compression evaluation, general concepts of image compression, and a survey of existing HSI compression models. % wlasnie metryki trzeba będzie przenieść 
+Reviewed literature includes scientific articles and conference papers, and is described in more detail in the following sections. % to zdanie jest imo niepotrzebne 
+These publications were selected for their relevance to the topic of this thesis and were screened to ensure only current research that has not been superseded was used.
+These papers served as the first step in the development of model implementations.
+
+\section{Processing challenges of hyperspectral images}
+Hyperspectral image acquisition enables the capture of detailed spectral information, but it introduces challenges related to data volume and transmission.
+A single HSI can be comprised of hundreds of spectral bands for each spatial pixel, leading to substantial file sizes.
+This poses significant challenges for storage, processing, and transmission, especially in resource-constrained environments such as satellites and remote sensing platforms. % to i pierwsze zdanie to maslo maslane 
+Furthermore, as the technology advances, the number of spectral bands and the spatial resolution of hyperspectral images continue to increase, exacerbating the problem.
+From the signal processing perspective, HSIs exhibit high correlation across both spatial and spectral dimensions~\cite{HighSpatioSpectralCorrelation}.
+This correlation can be exploited for compression, but it also means that traditional compression techniques may not be optimal.
+
+\section{Approaches to image compression}
+Image compression is a technique used to reduce the size of images for storage and transmission purposes.
+The main objective of image compression is to minimize the amount of data required to represent an image.
+The most important aspects of image compression are the compression ratio (CR) and the quality of the reconstructed image.
+The compression ratio is defined as the ratio of the original image size to the compressed image size.
+A higher CR means a greater reduction in size~\cite{lossless_comprehensive_review2025}.
+Compression can be broadly categorized into two types: lossy and lossless~\cite{lossless_comprehensive_review2025}.
+Lossless compression techniques allow for the exact reconstruction of the original image from the compressed data.
+These techniques are essential in applications where any loss of information is unacceptable~\cite{CCSDS123Review2021}.
+However, lossless compression typically achieves lower compression ratios compared to lossy methods or takes more computational resources.
+Lossy compression techniques, on the other hand, allow for some loss of information in exchange for higher compression ratios~\cite{CCSDS123Review2021}.
+These techniques are commonly used in applications where some loss of quality is acceptable, such as web images and videos.
+Lossy compression methods allow for higher compression ratios than lossless methods, but they may introduce artifacts and degrade image quality.
+The choice between lossy and lossless compression depends on the specific requirements of the application, including the acceptable level of quality loss and the desired compression ratio.\par
+
+\section{Hyperspectral image compression}
+Hyperspectral image compression has been an active area of research, with various approaches proposed over the years.
+These methods can be loosely categorized into traditional compression techniques and deep learning-based methods.
+Traditional compression techniques include, but are not limited to, methods such as statistical coding, wavelet transforms, and predictive coding ~\cite{HSICompressionReview2015}.
+These methods often rely on hand-crafted features and may not fully exploit the complex correlations present in hyperspectral data. % to sie musze zastanowić jak przerobić 
+In recent years, deep learning-based methods have gained prominence due to their ability to learn complex representations from data~\cite{lossless_comprehensive_review2025}. % Chociaz idk czy inne reviewy nie bylyby lepsze
+Autoencoders ~\cite{HySpecNet11k}, convolutional neural networks (CNNs)~\cite{CNNForHSI}, and generative adversarial networks (GANs)~\cite{GANForHSI} have been employed for hyperspectral image compression.
+These methods can adaptively learn to compress hyperspectral images based on the data distribution, potentially leading to better performance compared to traditional methods.
+Several studies have demonstrated the effectiveness of deep learning-based compression methods for hyperspectral images~\cite{HySpecNet11k, CNNForHSI}.
+These methods are known to exploit the high spatial and spectral correlation present in HSIs, leading to improved compression ratios and reconstruction quality~\cite{lossless_comprehensive_review2025}.
+
+
+\subsection{Algorithmic approaches}
+HSI compression algorithms can be distinguished based on the techniques they approach.
+One of the approaches is prediction-based, which relies on sequentially estimating pixel values based on previously encoded values.
+Due to its simplicity, this approach is often used in lossless compression algorithms~\cite{CCSDS123Review2021}.
+The CCSDS 123.0-B-2 standard is an example of a predictive coding algorithm, which is the standard for lossless and near-lossless compression in space applications due to their low computing requirements~\cite{CCSDS123Review2021} \par
+A major recent breakthrough is a deep learning model called LineRWKV~\cite{valsesia2024linerwkv}.
+This model uses a predictive approach but replaces the fixed formula with a neural network.
+It became the first deep learning (DL) model proven to beat CCSDS 123.0-B-2 standard by achieving better compression while being efficient enough to run on a satellite~\cite{valsesia2024linerwkv}.\\
+Another approach is transformation-based compression.
+Instead of looking at pixels individually, this approach looks at the image as a whole and applies a mathematical transformation to repackage the entire image's information into a new, more compact form.\par
+One of the most prominent examples of such transformation-based methods in deep learning are autoencoders.
+Autoencoders are neural networks trained to squeeze an image into a smaller ``bottleneck'' representation.
+This bottleneck is called latent space, and it contains the most important features of the original image in a compressed form.
+The process of squeezing is called encoding, and the reverse process of reconstructing the image to its original form is called decoding~\cite{barman2022autoencoders}.
+While autoencoders can obtain high compression ratios, due to the small size of the latent space representation, the information in it is heavily rounded off, which makes the process lossy.
+
+\section{Semantic segmentation of hyperspectral images}
+Semantic segmentation is a computer vision task that involves classifying each pixel in an image into predefined categories based on image content.
+In the context of HSIs, semantic segmentation is a particularly powerful tool due to the rich spectral information available for each pixel.
+This, in turn, allows for more accurate and detailed classification compared to traditional RGB images.
+HSI semantic segmentation has found applications in various fields, including agriculture~\cite{ environmental_monitoring_hyperspectral2009}, forestry~\cite{ remote_sensing_uav_hyperspectral2017}, geology~\cite{geology2012}, surveillance~\cite{ HSI_security_surveillance2010}, and environmental monitoring~\cite{chemometrics_environmental_monitoring2020}. % papery z 1 rozdzialu
+For example, in agriculture applications, semantic segmentation of HSIs is used to identify crop types, monitor nutrients, and detect diseases~\cite{chemometrics_environmental_monitoring2020}.
+Thus, semantic segmentation is crucial for further utilization of HSIs in various applications.
+However, the high dimensionality and complexity of HSIs create a significant computational challenge for doing semantic segmentation in real-time or resource-constrained environments.
+Therefore, it is essential to ensure swift and efficient transmission and storage of HSIs, which can be achieved through different compression techniques.
+In order to evaluate the impact of compression on downstream tasks such as semantic segmentation, it is important to include a segmentation model in the evaluation pipeline.
+Due to the focus of this thesis being on compression techniques, a simple segmentation model is used for evaluation purposes.

@@ -1470,6 +1470,13 @@ def main(args):
         # Dataloaders: 2D1D expects [h,w,c] -> data_mode=2
 
         if args.mode == 'train':
+            val_loader = TFHySpecNetLoader(
+                root_dir=args.data_dir,
+                mode=args.split,
+                split='validation',
+                batch_size=args.batch_size,
+                data_mode=2
+            )
             # Resume from checkpoint if provided
             train_loader = TFHySpecNetLoader(
                 root_dir=args.data_dir,

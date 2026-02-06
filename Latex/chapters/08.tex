@@ -1,0 +1,103 @@
+\chapter{Comparison and conclusions}
+
+\section{Compression comparison}
+The results obtained from the different models were compared based on the evaluation metrics discussed in Section \ref{sec:eval}.
+For context, a table comparing the results from the models developed in this thesis against selected reference models from the literature is provided in Table \ref{tab:comparison_models_metrics}.
+The models are as follows: LineRWKV (I), Extended 1D-Convolutional Auto-encoder (1D-CAE-Ext) (II), 3D Convolutional Auto-encoder (3D-CAE)(III), Scalable Reduced-Complexity Compression Model (IV), LineRWKV reproduction (V), RCAE3D (VI), RCAE2D1D (VII), RCGDNAE medium bitrate model (VIII).
+Of these models, models I to IV are reference models from the literature, while models V to VIII were developed in this thesis.
+The comparison focused on both the models' quantitative performance, as measured by PSNR, SSIM, and SA, as well as qualitative aspects such as reconstruction quality and computational efficiency.
+The models constructed in the thesis demonstrated varying degrees of success in compressing and reconstructing hyperspectral images from the HySpecNet-11k dataset.
+The models in this thesis still achieved reasonable performance, with the best model in terms of PSNR being the LineRWKV reproduction, achieving a PSNR of 44.87 dB and SSIM of 0.9850.
+This model was then followed by the convolutional autoencoder models, which achieved PSNR values in the range of 34 to 38.15 dB and SSIM values between 0.866 and 0.977.
+One particularity worth noting is that the RCGDNAE model repeatedly achieved higher PSNR values compared to the other autoencoder models; however, it consistently had the lowest SSIM values among them.
+This suggests that while the RCGDNAE model was effective at minimizing pixel-wise errors, it may have struggled to preserve the overall structural integrity of the images as perceived by human observers.
+Overall, the weaker performance compared to published works indicates that there is still room for improvement in the models developed in this thesis.
+% Comparison table
+\begin{table}[h!]
+    \centering
+    \caption{Comparison of evaluation metrics for reference models from the literature and models developed in this thesis.}
+    \label{tab:comparison_models_metrics}
+    \begin{threeparttable}
+        \begin{tabular}{m{5em}| m{3em} m{3em} m{3em} m{3em} m{3em} m{3em} m{3em} m{3em}}
+            \toprule
+            Metric    & I     & II    & III   & IV     & V     & VI    & VII   & VIII    \\
+            \midrule
+            PSNR (dB) & 53*   & 43.22 & 39.06 & 61.96  & 44.87 & 38.15 & 34.24 & 36.68   \\
+            SSIM      & N/A   & 0.964 & 0.934 & N/A    & 0.985 & 0.977 & 0.961 & 0.866   \\
+            SA (deg.) & N/A   & 5.94  & 5.80  & N/A    & 3.987 & 5.137 & 6.131 & 9.27    \\
+            bpppc     & 1.4*  & 8.08  & 1.00  & 0.1    & 2.00  & 1.267 & 0.633 & 0.0218  \\
+            CR        & 11.43 & 1.98  & 16.00 & 160.00 & 8.00  & 12.62 & 25.09 & 129799 \\
+            \bottomrule
+        \end{tabular}
+        \begin{tablenotes}
+            \small
+            \item * Value estimated from graph in the original paper.
+            \item I LineRWKV 
+            \item II Extended 1D-Convolutional Auto-encoder (1D-CAE-Ext)
+            \item III 3D Convolutional Auto-encoder (3D-CAE)
+            \item IV Scalable Reduced-Complexity Compression Model
+            \item V LineRWKV reproduction
+            \item VI RCAE3D
+            \item VII CAE2D1D
+            \item VIII RCGDNAE medium bitrate model
+        \end{tablenotes}
+    \end{threeparttable}
+\end{table}
+
+
+\section{Segmentation performance}
+All of the models developed in this thesis are useful for downstream tasks that require hyperspectral image compression, especially in resource-constrained environments such as satellites.
+The performance of the models was evaluated based on their ability to perform semantic segmentation on the reconstructed images.
+The segmentation metrics for the different models are summarized in Table \ref{tab:segmentation_comparison}.
+With the model names corresponding to those in Table \ref{tab:comparison_models_metrics}.
+An additional model was added (IX), which is the Simple Segmentation Model evaluated on the original uncompressed images serving as a baseline.
+This is demonstrated by the use of the Simple Segmentation Model, which was able to perform semantic segmentation on the reconstructed images from all of the models with reasonable accuracy.
+Some models achieved better segmentation accuracy than others, notably the RCAE2D1D model (VII), which achieved the lowest accuracy of 0.953, with an F1-score of 0.803 and IoU of 0.704.
+This indicates that while the model was able to compress the images effectively, it may have lost some important features necessary for accurate segmentation.
+On the other hand, the RCAE3D reproduction model (VI) achieved the highest accuracy of 0.968, with an F1-score of 0.839 and IoU of 0.753, indicating that it was able to preserve more of the important features necessary for accurate segmentation.
+Still, all models achieved reasonably high accuracy, F1-scores, IoU, and AUC values, indicating that they were able to retain important features for segmentation despite the compression.
+Of some interest is that the segmentation performance does not directly correlate with the SSIM or SA metrics.
+This suggests that while these metrics are useful for evaluating image quality, they may not fully capture the aspects of the images that are most relevant for segmentation tasks.
+
+\begin{table}[h!]
+    \centering
+    \caption{Segmentation metrics comparison on reconstructed images from different compression models.}
+    \label{tab:segmentation_comparison}
+    \begin{threeparttable}
+    \begin{tabular}{m{5em}| m{3em} m{3em} m{3em} m{3em} m{3em}}
+        \toprule
+        Model    & V     & VI    & VII   & VIII  & IX    \\
+        \midrule
+        Accuracy & 0.964 & 0.968 & 0.953 & 0.957 & 0.989 \\
+        F1-score & 0.839 & 0.839 & 0.803 & 0.830 & 0.904 \\
+        IoU      & 0.748 & 0.753 & 0.704 & 0.741 & 0.844 \\
+        AUC      & 0.867 & 0.865 & 0.861 & 0.866 & 0.873 \\
+        \bottomrule
+    \end{tabular}
+    \begin{tablenotes}
+        \item V LineRWKV reproduction
+        \item VI RCAE3D
+        \item VII RCAE2D1D
+        \item VIII RCGDNAE medium bitrate model
+        \item IX Simple Segmentation Model on original uncompressed images (baseline)
+    \end{tablenotes}
+    \end{threeparttable}
+\end{table}
+
+
+
+\section{Possible improvements and future work}
+The main issues affecting the performance were likely the limited computational resources available during development and training, as well as time constraints.
+Future work could focus on optimizing the model architectures further, especially allowing for much longer training epochs in excess of the 100 to 500 epochs used in this thesis.
+Additionally, exploring more advanced techniques such as transfer learning could potentially enhance model performance.
+Another avenue for future research could involve investigating hybrid models that combine the strengths of different architectures, such as integrating elements of LineRWKV with convolutional autoencoders.
+Yet another area for improvement could be the integration of the downstream segmentation task directly into the training process of the compression models.
+This could involve designing a multi-task learning framework where the model is trained to optimize both compression and segmentation performance simultaneously.
+Lastly, further research could focus on using the compressed representations for other downstream tasks beyond semantic segmentation, such as object detection or anomaly detection in hyperspectral images.
+
+\section{Conclusions}
+This thesis has explored the application of deep learning techniques for hyperspectral image compression using the HySpecNet-11k dataset.
+Four distinct compression models were developed and evaluated, each demonstrating varying degrees of success in compressing and reconstructing hyperspectral images.
+The models were assessed based on quantitative metrics such as PSNR, SSIM, and SA, as well as their performance in a downstream semantic segmentation task.
+While the models developed in this thesis did not surpass the performance of existing state-of-the-art methods, they still achieved reasonable results, indicating their potential utility in resource-constrained environments.
+The findings suggest that deep learning-based compression techniques hold promise for HSI compression, but further research and optimization are needed to fully realize their capabilities.
