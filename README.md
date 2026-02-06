@@ -8,7 +8,7 @@ By Michał Rajzer and Jakub Sanecki
 
 Hyperspectral images (HSIs) provide detailed spectral information across hundreds of bands but generate significantly larger data volumes than traditional RGB images, creating challenges for storage and transmission in resource-constrained environments such as satellites. 
 
-This thesis explores deep learning-based compression methods for HSIs, implementing and evaluating four models: LineRWKV for lossless compression, and CAE2D1D, CAE3D, and RCGDNAE for lossy compression.
+This thesis explores deep learning-based compression methods for HSIs, implementing and evaluating four models: LineRWKV for lossless compression, and RCAE2D1D, RCAE3D, and RCGDNAE for lossy compression.
 The models were trained and tested on the HySpecNet11k dataset, with performance assessed using metrics such as Bits Per Pixel Per Band (BPPPB), Peak Signal-to-Noise Ratio (PSNR), and Structural Similarity Index Measure (SSIM).
 
 Another important aspect of this work is the evaluation of the feasibility of these models for downstream tasks, specifically semantic segmentation, which was assessed using a separate model trained on the original, uncompressed data.
