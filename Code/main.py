@@ -1465,7 +1465,7 @@ def main(args):
         print(f"SSIM: {ssim_m.result().numpy():.4f}")
 
     if args.model == 'rcae2D1D':
-        from Code.lossy.rcae2D1D import cae2D1D
+        from lossy.rcae2D1D import cae2D1D
         model = cae2D1D(src_channels=202, latent_channels=128)
         # Dataloaders: 2D1D expects [h,w,c] -> data_mode=2
 
@@ -1536,7 +1536,7 @@ def main(args):
             else:
                 eval_autoencoder(model, val_loader.dataset)
     elif args.model == 'rcae2D':
-        from Code.lossy.rcae3D import ResidualConv3DAutoencoder
+        from lossy.rcae3D import ResidualConv3DAutoencoder
         model = ResidualConv3DAutoencoder(
             src_channels=202, latent_channels=128)
         print(args.histogram_save_path)
